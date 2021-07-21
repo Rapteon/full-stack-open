@@ -1,5 +1,22 @@
 import React from 'react'
 
+const Header = (props) => (
+  <h1>{props.value}</h1>
+)
+
+const Content = (props) => {
+  <>
+    <p>{props.values[0][0]} {props.values[0][1]}</p>
+    <p>{props.values[1][0]} {props.values[1][1]}</p>
+    <p>{props.values[2][0]} {props.values[2][1]}</p>
+  </>
+}
+
+const Total = (props) => {
+  sum = props.exerciseCounts.forEach(element => {
+    sum += element;
+  })
+}
 const App = () => {
     const course = 'Half Stack application development'
     const part1 = 'Fundamentals of React'
