@@ -1,21 +1,27 @@
 import React from 'react'
 
 const Header = (props) => (
-  <h1>{props.value}</h1>
+  <h1>{props.content}</h1>
 )
 
-const Content = (props) => {
+const Content = (props) => (
   <>
     <p>{props.values[0][0]} {props.values[0][1]}</p>
     <p>{props.values[1][0]} {props.values[1][1]}</p>
     <p>{props.values[2][0]} {props.values[2][1]}</p>
   </>
-}
+)
 
 const Total = (props) => {
-  sum = props.exerciseCounts.forEach(element => {
+  let sum = 0;
+  props.exerciseCounts.forEach(element => {
     sum += element;
   })
+  return (
+   <>
+    <p>Number of exercises {sum}</p>
+   </>
+  )
 }
 const App = () => {
     const course = 'Half Stack application development'
@@ -28,17 +34,9 @@ const App = () => {
 
     return (
         <div>
-            <h1>{course}</h1>
-            <p>
-                {part1} {exercises1}
-            </p>
-            <p>
-                {part2} {exercises2}
-            </p>
-            <p>
-                {part3} {exercises3}
-            </p>
-            <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
+            <Header content = {course}/>
+            <Content values = {[[part1, exercises1],[part2, exercises2],[part3, exercises3]]} />
+            <Total exerciseCounts = {[exercises1, exercises2, exercises3]} />
         </div>
     )
 }
