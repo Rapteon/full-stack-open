@@ -4,11 +4,17 @@ const Header = (props) => (
   <h1>{props.content}</h1>
 )
 
+const Part = (props) => (
+  <>
+    <p>{props.part_num} {props.part_value}</p>
+  </>
+)
+
 const Content = (props) => (
   <>
-    <p>{props.values[0][0]} {props.values[0][1]}</p>
-    <p>{props.values[1][0]} {props.values[1][1]}</p>
-    <p>{props.values[2][0]} {props.values[2][1]}</p>
+    <Part part_num = {props.values[0][0]} part_value = {props.values[0][1]} />
+    <Part part_num = {props.values[1][0]} part_value = {props.values[1][1]} />
+    <Part part_num = {props.values[2][0]} part_value = {props.values[2][1]} />
   </>
 )
 
