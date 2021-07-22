@@ -12,9 +12,9 @@ const Part = (props) => (
 
 const Content = (props) => (
   <>
-    <Part part_num = {props.values[0][0]} part_value = {props.values[0][1]} />
-    <Part part_num = {props.values[1][0]} part_value = {props.values[1][1]} />
-    <Part part_num = {props.values[2][0]} part_value = {props.values[2][1]} />
+    <Part part_num = {props.values[0].name} part_value = {props.values[0].exercises} />
+    <Part part_num = {props.values[1].name} part_value = {props.values[1].exercises} />
+    <Part part_num = {props.values[2].name} part_value = {props.values[2].exercises} />
   </>
 )
 
@@ -47,8 +47,8 @@ const App = () => {
     return (
         <div>
             <Header content = {course}/>
-            <Content values = {[[part1, exercises1],[part2, exercises2],[part3, exercises3]]} />
-            <Total exerciseCounts = {[exercises1, exercises2, exercises3]} />
+            <Content values = {[part1, part2, part3]} />
+            <Total exerciseCounts = {[part1.exercises, part2.exercises, part3.exercises]} />
         </div>
     )
 }
