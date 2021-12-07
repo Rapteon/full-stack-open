@@ -1,4 +1,4 @@
-# Exercise 1.1
+# Exercise 1.3
 
-Create a part of the courseinfo app using multiple components
-defined within App.js
+Pass object members as props to components  
+used within App.js
