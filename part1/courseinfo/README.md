@@ -1,4 +1,3 @@
-# Exercise 1.3
+# Exercise 1.4
 
-Pass object members as props to components  
-used within App.js
+Pass array of objects as props to components.
