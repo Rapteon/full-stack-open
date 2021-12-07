@@ -1,3 +1,4 @@
-# Exercise 1.4
+# Exercise 1.5
 
-Pass array of objects as props to components.
+Pass members of a single object as props to  
+components.
