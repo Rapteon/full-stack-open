@@ -5,19 +5,16 @@ const Header = (props) => (
 )
 
 const Content = (props) => (
-  <>
-    <p>
-      {props.parts[0]} {props.counts[0]}
-    </p>
-    <p>
-    {props.parts[1]} {props.counts[1]}
-    </p>
-    <p>
-      {props.parts[2]} {props.counts[2]}
-    </p>
-  </>
+  <div>
+    <Part name={props.parts[0]} count={props.counts[0]}/>
+    <Part name={props.parts[1]} count={props.counts[1]}/>
+    <Part name={props.parts[2]} count={props.counts[2]}/>
+  </div>
 )
 
+const Part = (props) => (
+  <p>{props.name} {props.count}</p>
+)
 const Total = (props) => {
   /**
    * sum is assigned the value created by summing all
