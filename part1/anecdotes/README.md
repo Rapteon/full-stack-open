@@ -1,4 +1,4 @@
-# Exercise 1.12
+# Exercise 1.13
 
-App to show some anecdotes. With a button to display  
-random anecdotes.
+Added button to vote for anecdotes.  
+Votes are displayed below each anecdote.
