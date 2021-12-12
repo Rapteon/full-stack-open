@@ -16,6 +16,7 @@ const App = () => {
     ]
     const [statement, setStatement] = useState(anecdotes[0])
     const [voteCounts, setVote] = useState({0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0})
+    const [maxVoted, setMaxVoted] = useState(0)
 
     const generateAnecdote = () => {
         setStatement(anecdotes[Math.floor(Math.random() * anecdotes.length)])
@@ -25,13 +26,27 @@ const App = () => {
       const newVoteCounts = {...voteCounts}
       newVoteCounts[anecdotes.indexOf(statement)] += 1
       setVote(newVoteCounts)
+      updateMaxVoted(newVoteCounts)
     }
+
+    const updateMaxVoted = (voteCounts) => {
+      const votes = []
+      for (const i in voteCounts) {
+        votes.push(voteCounts[i])
+      }
+      setMaxVoted(votes.indexOf(Math.max(...votes)))
+    }
+    
     return (
         <div>
+            <h2>Anecdote of the day</h2>
             {statement}
             <VoteDisplay voteCounts={voteCounts} index={anecdotes.indexOf(statement)}/>
             <button onClick={updateVote}>vote</button>
             <button onClick={generateAnecdote}>next anecdote</button>
+            <h2>Anecdote with most votes</h2>
+            {anecdotes[maxVoted]}
+            <VoteDisplay voteCounts={voteCounts} index={maxVoted}/>
         </div>
     )
 }
