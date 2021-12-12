@@ -6,6 +6,33 @@ const Display = ({text, val}) => {
   )
 }
 
+const Statistics = ({feedbacks, weights}) => {
+  /**
+   * Returns the average feedback received by the cafe
+   */
+  const totalFeedbacks = feedbacks.reduce((prev, current) => prev + current)
+
+  const averageFeedback = () => {
+    const weightedSum = feedbacks.map((val, index) => val * weights[index]).reduce((prev, current) => prev + current)
+    return (weightedSum)/(totalFeedbacks)
+  }
+
+  /**
+   * Returns the percentage of positive feedback received.
+   * feedbacks[0] must hold the value to calculate
+   * positive feedback for.
+   */
+  const positiveFeedback = () => {
+    return (feedbacks[0] / totalFeedbacks * 100)+' %'
+  }
+
+  return (
+    <div>
+      <Display text='average' val={averageFeedback()}/>
+      <Display text='positive' val={positiveFeedback()}/>
+    </div>
+  )
+}
 const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
@@ -25,27 +52,6 @@ const App = () => {
     setAll(all + 1)
   }
 
-  /**
-   * Returns the average feedback received by the cafe
-   */
-  const averageFeedback = () => {
-    const [goodWeight, neutralWeight, badWeight] = [1, 0, -1]
-
-    if (all === 0)
-      return 0
-    else
-      return (good * goodWeight + neutral * neutralWeight + bad * badWeight)/all
-  }
-
-  /**
-   * Returns the percentage of positive feedback received.
-   */
-  const positiveFeedback = () => {
-    if (all === 0)
-      return 0
-    else
-      return (good / all * 100)+' %'
-  }
   return (
     <div>
       <h2>give feedback</h2>
@@ -57,8 +63,7 @@ const App = () => {
       <Display text='neutral' val={neutral}/>
       <Display text='bad' val={bad}/>
       <Display text='all' val={all}/>
-      <Display text='average' val={averageFeedback()}/>
-      <Display text='positive' val={positiveFeedback()}/>
+      <Statistics feedbacks={[good, neutral, bad]} weights={[1, 0, -1]}/>
     </div>
   )
 }
