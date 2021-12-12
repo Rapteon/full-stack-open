@@ -26,13 +26,17 @@ const Statistics = ({feedbacks, weights}) => {
     return (feedbacks[0] / totalFeedbacks * 100)+' %'
   }
 
-  return (
-    <div>
-      <Display text='average' val={averageFeedback()}/>
-      <Display text='positive' val={positiveFeedback()}/>
-    </div>
-  )
+  if (totalFeedbacks === 0)
+    return 'No feedbacks given'
+  else
+    return (
+      <div>
+        <Display text='average' val={averageFeedback()}/>
+        <Display text='positive' val={positiveFeedback()}/>
+      </div>
+    )
 }
+
 const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
