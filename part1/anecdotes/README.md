@@ -1,4 +1,3 @@
-# Exercise 1.13
+# Exercise 1.14
 
-Added button to vote for anecdotes.  
-Votes are displayed below each anecdote.
+Most voted anecdote is now displayed.
