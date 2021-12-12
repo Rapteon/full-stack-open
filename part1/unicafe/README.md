@@ -1,4 +1,5 @@
-# Exercise 1.10
+# Exercise 1.11
 
-Created StatisticsLine component for  
-rendering each statistic on a separate line.
+Statistics about feedbacks is now  
+displayed in a table. StatisticsLine is not  
+used.
