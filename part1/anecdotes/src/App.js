@@ -1,5 +1,9 @@
 import React, {useState} from 'react'
 
+const VoteDisplay = ({voteCounts, index}) => (
+  <div>has {voteCounts[index]} votes</div>
+)
+
 const App = () => {
     const anecdotes = [
         'If it hurts, do it more often',
@@ -11,13 +15,22 @@ const App = () => {
         'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients'
     ]
     const [statement, setStatement] = useState(anecdotes[0])
+    const [voteCounts, setVote] = useState({0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0})
 
     const generateAnecdote = () => {
         setStatement(anecdotes[Math.floor(Math.random() * anecdotes.length)])
     }
+    
+    const updateVote = () =>{
+      const newVoteCounts = {...voteCounts}
+      newVoteCounts[anecdotes.indexOf(statement)] += 1
+      setVote(newVoteCounts)
+    }
     return (
         <div>
-            <p>{statement}</p>
+            {statement}
+            <VoteDisplay voteCounts={voteCounts} index={anecdotes.indexOf(statement)}/>
+            <button onClick={updateVote}>vote</button>
             <button onClick={generateAnecdote}>next anecdote</button>
         </div>
     )
