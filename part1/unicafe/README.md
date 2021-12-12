@@ -1,3 +1,4 @@
-# Exercise 1.9
+# Exercise 1.10
 
-Conditional rendering of Statistics component.
+Created StatisticsLine component for  
+rendering each statistic on a separate line.
