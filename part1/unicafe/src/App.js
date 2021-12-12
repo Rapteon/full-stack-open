@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-const Display = ({text, val}) => {
+const StatisticsLine = ({text, val}) => {
   return (
     <div>{text} {val}</div>
   )
@@ -31,8 +31,12 @@ const Statistics = ({feedbacks, weights}) => {
   else
     return (
       <div>
-        <Display text='average' val={averageFeedback()}/>
-        <Display text='positive' val={positiveFeedback()}/>
+        <StatisticsLine text='good' val={feedbacks[0]}/>
+        <StatisticsLine text='neutral' val={feedbacks[1]}/>
+        <StatisticsLine text='bad' val={feedbacks[2]}/>
+        <StatisticsLine text='all' val={totalFeedbacks}/>
+        <StatisticsLine text='average' val={averageFeedback()}/>
+        <StatisticsLine text='positive' val={positiveFeedback()}/>
       </div>
     )
 }
@@ -63,10 +67,6 @@ const App = () => {
       <button onClick={giveNeutralFeedback}>neutral</button>
       <button onClick={giveBadFeedback}>bad</button>
       <h2>statistics</h2>
-      <Display text='good' val={good}/>
-      <Display text='neutral' val={neutral}/>
-      <Display text='bad' val={bad}/>
-      <Display text='all' val={all}/>
       <Statistics feedbacks={[good, neutral, bad]} weights={[1, 0, -1]}/>
     </div>
   )
