@@ -30,14 +30,32 @@ const Statistics = ({feedbacks, weights}) => {
     return 'No feedbacks given'
   else
     return (
-      <div>
-        <StatisticsLine text='good' val={feedbacks[0]}/>
-        <StatisticsLine text='neutral' val={feedbacks[1]}/>
-        <StatisticsLine text='bad' val={feedbacks[2]}/>
-        <StatisticsLine text='all' val={totalFeedbacks}/>
-        <StatisticsLine text='average' val={averageFeedback()}/>
-        <StatisticsLine text='positive' val={positiveFeedback()}/>
-      </div>
+      <table>
+        <tr>
+          <td>good</td>
+          <td>{feedbacks[0]}</td>
+        </tr>
+        <tr>
+          <td>neutral</td>
+          <td>{feedbacks[1]}</td>
+        </tr>
+        <tr>
+          <td>bad</td>
+          <td>{feedbacks[2]}</td>
+        </tr>
+        <tr>
+          <td>all</td>
+          <td>{totalFeedbacks}</td>
+        </tr>
+        <tr>
+          <td>average</td>
+          <td>{averageFeedback()}</td>
+        </tr>
+        <tr>
+          <td>positive</td>
+          <td>{positiveFeedback()}</td>
+        </tr>
+      </table>
     )
 }
 
