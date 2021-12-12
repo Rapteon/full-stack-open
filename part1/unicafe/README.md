@@ -1,4 +1,3 @@
-# Exercise 1.8
+# Exercise 1.9
 
-Refactored code to display statistics in  
-a separate component.
+Conditional rendering of Statistics component.
