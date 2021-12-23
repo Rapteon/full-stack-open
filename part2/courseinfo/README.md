@@ -1,3 +1,3 @@
-# Exercise 2.1
+# Exercise 2.2
 
-Changed courseinfo to use Course component.
+Sum of exercises of course is now displayed.
