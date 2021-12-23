@@ -1,3 +1,3 @@
-# Exercise 2.2
+# Exercise 2.3
 
-Sum of exercises of course is now displayed.
+Since I had already used reduce in exercises 2.2, no changes here except the title.
