@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    {
-      name: 'Arto Hellas',
-      number: '040-1234567'
-    }
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [searchResults, setSearchResults] = useState([])
 
   const addNewPerson = (event) => {
     event.preventDefault()
@@ -19,11 +20,23 @@ const App = () => {
       setPersons(persons.concat({name: newName, number: newNumber}))
       setNewName('')
       setNewNumber('')
+      setSearchResults([])
     }
   }
   return (
     <div>
       <h2>Phonebook</h2>
+      <h2>Search</h2>
+      <form>
+          filter shown with: 
+          <input
+            onChange={(event) => setSearchResults(
+              persons.filter(
+                person => person.name.match(new RegExp(`${event.target.value}`, 'i'))
+              )
+            )}
+          />
+      </form>
       <form>
         <div>
           name: <input value={newName} onChange={ (event) => setNewName(event.target.value)}/>
@@ -36,8 +49,9 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.length !== 0 ? persons.map(person => <p key={person.name}>{person.name} {person.number}</p>) : "..."}
-      {/* ... */}
+      {searchResults.length === 0
+        ? persons.map(person => <p key={person.name}>{person.name} {person.number}</p>)
+        : searchResults.map(person => <p key={person.name}>{person.name} {person.number}</p>)}
     </div>
   )
 }

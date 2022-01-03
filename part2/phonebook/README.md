@@ -1,3 +1,3 @@
-# Exercise 2.8
+# Exercise 2.9
 
-Now displays phone number too.
+Added search functionality to search for names.
