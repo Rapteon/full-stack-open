@@ -1,3 +1,3 @@
-# Exercise 2.3
+# Exercise 2.4
 
-Since I had already used reduce in exercises 2.2, no changes here except the title.
+Extended app to use arbitrary number of courses.
