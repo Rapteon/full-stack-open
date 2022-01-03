@@ -1,3 +1,3 @@
-# Exercise 2.6
+# Exercise 2.7
 
-Phonebook first exercise.
+Prevent duplicate records in phonebook.
