@@ -1,3 +1,3 @@
-# Exercise 2.4
+# Exercise 2.5
 
-Extended app to use arbitrary number of courses.
+Refactored app to use Course as module.
