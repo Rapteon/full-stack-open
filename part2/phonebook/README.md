@@ -1,3 +1,3 @@
-# Exercise 2.7
+# Exercise 2.8
 
-Prevent duplicate records in phonebook.
+Now displays phone number too.
