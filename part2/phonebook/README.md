@@ -1,3 +1,3 @@
-# Exercise 2.10
+# Exercise 2.11
 
-Refactored into 3 components.
+Now loading details of people from json-server.
