@@ -1,3 +1,3 @@
-# Exercise 2.9
+# Exercise 2.10
 
-Added search functionality to search for names.
+Refactored into 3 components.

@@ -1,5 +1,40 @@
 import React, { useState } from 'react'
 
+/**
+ * filter = function used to filter items.
+ * items = array containing the object to be filtered.
+ * updater = a react hook function to update the UI
+ */
+ const Search = ({filter, items, updater}) => {
+  return (
+    <input onChange={event => updater(filter(event.target.value, items))}/>
+  )
+}
+
+const PersonForm = ({newName, setNewName, newNumber, setNewNumber, submitter}) => {
+  return (
+    <form>
+      <div>
+        name: <input value={newName} onChange={ (event) => setNewName(event.target.value)}/>
+      </div>
+      <div>
+        number: <input value={newNumber} onChange={ (event) => setNewNumber(event.target.value)}/>
+      </div>
+      <div>
+        <button type="submit" onClick={submitter}>add</button>
+      </div>
+    </form>
+  )
+}
+
+const People = ({searchPersons, persons}) => {
+  return (
+    searchPersons.length === 0
+      ? persons.map(person => <p key={person.name}>{person.name} {person.number}</p>)
+      : searchPersons.map(person => <p key={person.name}>{person.name} {person.number}</p>)
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -23,35 +58,23 @@ const App = () => {
       setSearchResults([])
     }
   }
+  const filterPeople = (name, persons) => {
+    return persons.filter(person => person.name.match(new RegExp(`${name}`, 'i')))
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
       <h2>Search</h2>
-      <form>
+      <div>
           filter shown with: 
-          <input
-            onChange={(event) => setSearchResults(
-              persons.filter(
-                person => person.name.match(new RegExp(`${event.target.value}`, 'i'))
-              )
-            )}
-          />
-      </form>
-      <form>
-        <div>
-          name: <input value={newName} onChange={ (event) => setNewName(event.target.value)}/>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={ (event) => setNewNumber(event.target.value)}/>
-        </div>
-        <div>
-          <button type="submit" onClick={addNewPerson}>add</button>
-        </div>
-      </form>
+          <Search filter={filterPeople} items={persons} updater={setSearchResults} />
+      </div>
+      <PersonForm newName={newName} newNumber={newNumber}
+        setNewName={setNewName} setNewNumber={setNewNumber}
+        submitter={addNewPerson}/>
       <h2>Numbers</h2>
-      {searchResults.length === 0
-        ? persons.map(person => <p key={person.name}>{person.name} {person.number}</p>)
-        : searchResults.map(person => <p key={person.name}>{person.name} {person.number}</p>)}
+      <People searchPersons={searchResults} persons={persons}/>
     </div>
   )
 }
