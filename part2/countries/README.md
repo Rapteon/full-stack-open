@@ -1,3 +1,3 @@
-# Exercise 2.13
+# Exercise 2.14
 
-Added button to each result to allow showing result below.
+Now shows weather of first capital city of a country

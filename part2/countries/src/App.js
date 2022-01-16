@@ -1,7 +1,42 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 
+const WeatherHolder = ({city}) => {
+	const [temp, setTemp] = useState(0)
+	const [wind, setWind] = useState("")
+	const [iconURL, setIconURL] = useState("")	//Didn't know what to put for an icon.
+
+	const updateWeather = () => {
+		console.log(city)
+		//key=4df4233d27ffeb5c637617bf30fb0e46
+		//`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=4df4233d27ffeb5c637617bf30fb0e46`
+		//http://localhost:3002/weather
+		console.log('Getting weather...')
+		console.log(`Location ${city}`)
+		axios
+			.get(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`)
+			.then(response => {
+				console.log('Weather ready.')
+				console.log(response.data)
+				setTemp(`${response.data.main.temp} degree Celsius`)
+				setWind(`speed ${response.data.wind.speed} km/hr, ${response.data.wind.deg} degrees`)
+				console.log(`${response.data.weather[0].icon}`)
+				setIconURL(`https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`)
+			})
+	}
+
+	useEffect(updateWeather, [])
+	return (
+		<div>
+			<h3>Weather in {city}</h3>
+			<img src={iconURL}/>
+			<h4>temperature {temp}</h4>
+			<h4>wind {wind}</h4>
+		</div>
+	)
+}
 const CountryHolder = ({country}) => {
+	
 	if (Object.keys(country).length === 0)
 		return <p></p>
 	return (
@@ -17,12 +52,14 @@ const CountryHolder = ({country}) => {
 			}
 			</ul>
 			<h1>{country.flag}</h1>
+			{/*passing country.capital[0] because some countries have many capitals*/}
+			<WeatherHolder city={country.capital[0]}/>
 		</div>
 	)
 }
 
 const CountryDisplay = ({countries, ready}) => {
-	const [selectedCountry, setSelectedCountry] = useState({})
+	let selectedCountry = {}
 
 	if (!ready) {
 		console.log('Not ready')
