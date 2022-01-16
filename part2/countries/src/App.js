@@ -21,34 +21,40 @@ const CountryHolder = ({country}) => {
 	)
 }
 
-const CountryDisplay = ({countries, ready, setSelected}) => {
+const CountryDisplay = ({countries, ready}) => {
+	const [selectedCountry, setSelectedCountry] = useState({})
+
 	if (!ready) {
 		console.log('Not ready')
 		return <p></p>
 	}
-	else if (countries.length > 10) {
+	else if (countries.length >= 10) {
 		console.log('Too many matches')
 		return <p>Too many matches, specify another filter</p>
 	}
-	else if (countries.length >= 1) {
-		console.log('countries < 10 && countries > 1')
+	else if (countries.length > 1) {
+		console.log('countries > 1')
 		return (
 			<div>
 				{
 					countries.map(country =>
 							<p key={country.name.common}>{country.name.common}
 								<button key={country.name.common} onClick={(event) => {
-									setSelected(country);
+									event.preventDefault()
+									console.log('Result:', country)
 								}}>show</button>
 							</p>
 					)
 				}
+				<CountryHolder country={selectedCountry}/>
 			</div>
 		)
 	}
+	else if (countries.length === 1) {
+		return <CountryHolder country={countries[0]}/>
+	}
 	else {
 		console.log('No countries')
-		setSelected({})
 		return <p>No countries found</p>
 	}
 }
@@ -56,7 +62,6 @@ const CountryDisplay = ({countries, ready, setSelected}) => {
 const App = () => {
   const [countries, setCountries] = useState([])
 	const [results , setResults] = useState([])
-	const [selectedCountry, setSelectedCountry] = useState({})
 
 	/*
 	 * The setReady() hook is used to avoid showing
@@ -73,6 +78,8 @@ const App = () => {
       .then(response => {
         setCountries(response.data)
 				setResults(response.data)
+				setReady(ready)
+				console.log('Ready')
       })
   }
 
@@ -91,12 +98,15 @@ const App = () => {
 			setResults(filtered)
 		}
   }
-
+	
+	const resetSearchField = (event) => {
+		event.preventDefault()
+		setReady(false)
+	}
   return (
     <div>
-      find countries <input onInput={searchCountry}/>
-			<CountryDisplay countries={results} ready={ready} setSelected={setSelectedCountry}/>	
-			<CountryHolder country={selectedCountry}/>
+      find countries <input onInput={searchCountry} onBlur={resetSearchField}/>
+			<CountryDisplay countries={results} ready={ready}/>	
     </div>
   )
 }
