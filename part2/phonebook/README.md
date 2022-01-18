@@ -1,3 +1,3 @@
-# Exercise 2.15
+# Exercise 2.16
 
-Adding a new contact now updates contact list stored in server.
+Refactored code by moving contact modification code to separate module.
