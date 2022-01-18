@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import dbHandler from './services/persons'
 
 /**
  * filter = function used to filter items.
@@ -43,11 +43,9 @@ const App = () => {
   const [searchResults, setSearchResults] = useState([])
 
   const loadPersons = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
+    dbHandler
+      .getAll()
+      .then(persons => setPersons(persons))
   }
 
   useEffect(loadPersons, [])
@@ -58,7 +56,9 @@ const App = () => {
       alert(`${newName} is already added to phonebook`)
     }
     else {
-      setPersons(persons.concat({name: newName, number: newNumber}))
+      dbHandler
+        .add({name: newName, number: newNumber})
+        .then(newPerson => setPersons(persons.concat(newPerson)))
       setNewName('')
       setNewNumber('')
       setSearchResults([])

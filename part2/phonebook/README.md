@@ -1,3 +1,3 @@
-# Exercise 2.11
+# Exercise 2.16
 
-Now loading details of people from json-server.
+Refactored code by moving contact modification code to separate module.
