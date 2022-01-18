@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
+const baseUrl = 'http://localhost:3001/persons'
+
 /**
  * filter = function used to filter items.
  * items = array containing the object to be filtered.
@@ -44,7 +46,7 @@ const App = () => {
 
   const loadPersons = () => {
     axios
-      .get('http://localhost:3001/persons')
+      .get(baseUrl)
       .then(response => {
         setPersons(response.data)
       })
@@ -58,7 +60,11 @@ const App = () => {
       alert(`${newName} is already added to phonebook`)
     }
     else {
-      setPersons(persons.concat({name: newName, number: newNumber}))
+      axios
+        .post(baseUrl, {name: newName, number: newNumber})
+        .then(response => {
+          setPersons(persons.concat(response.data))
+        })
       setNewName('')
       setNewNumber('')
       setSearchResults([])

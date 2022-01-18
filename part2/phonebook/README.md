@@ -1,3 +1,3 @@
-# Exercise 2.11
+# Exercise 2.15
 
-Now loading details of people from json-server.
+Adding a new contact now updates contact list stored in server.
