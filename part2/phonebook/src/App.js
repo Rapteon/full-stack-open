@@ -13,10 +13,15 @@ import Notification from './components/Notification'
   )
 }
 
-const notify = (message, messageModifier) => {
+const notify = (message, messageModifier, isError, isErrorModifier) => {
   messageModifier(message)
+  isError
+    ? isErrorModifier(true)
+    : isErrorModifier(false)
+  
   setTimeout(() => {
       messageModifier(null)
+      isErrorModifier(false)
   }, 5000)
 }
 
@@ -36,7 +41,7 @@ const PersonForm = ({newName, setNewName, newNumber, setNewNumber, submitter}) =
   )
 }
 
-const People = ({searchPersons, persons, setPersons, messageModifier}) => {
+const People = ({searchPersons, persons, setPersons, messageModifier, isErrorModifier}) => {
   const deletePerson = (event) => {
     // window.confirm() returns true if OK is selected, else false by default.
     const personToDelete = persons.find(person => person.id === parseInt(event.target.value)).name
@@ -48,10 +53,10 @@ const People = ({searchPersons, persons, setPersons, messageModifier}) => {
           setPersons(persons.filter(person => person.id !== parseInt(event.target.value)))
         })
         .then(() => {
-          notify(`Deleted ${personToDelete}`, messageModifier)
+          notify(`Deleted ${personToDelete}`, messageModifier, false, isErrorModifier)
         })
         .catch(error => {
-          console.log('Error deleting delete contact.')
+          notify(`Information of {personToDelete} has already been removed from server`, messageModifier, true, isErrorModifier)
         })
     }
   }
@@ -68,6 +73,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const [notificationMessage, setNotificationMessage] = useState(null)
+  const [isError, setIsError] = useState(false)
 
   const loadPersons = () => {
     dbHandler
@@ -86,7 +92,10 @@ const App = () => {
           .update({name: newName, number: newNumber}, persons.find(person => person.name === newName).id)
           .then(response => setPersons(persons.filter(person => person.name !== newName).concat(response)))
           .then(() => {
-            notify(`Updated ${newName}`, setNotificationMessage)
+            notify(`Updated ${newName}`, setNotificationMessage, false, setIsError)
+          })
+          .catch(error => {
+            notify(`Information of ${newName} has already been removed from the server`, setNotificationMessage, true, setIsError)
           })
       }
     }
@@ -95,7 +104,10 @@ const App = () => {
         .add({name: newName, number: newNumber})
         .then(newPerson => setPersons(persons.concat(newPerson)))
         .then(() => {
-          notify(`Added ${newName}`, setNotificationMessage)
+          notify(`Added ${newName}`, setNotificationMessage, false, setIsError)
+        })
+        .catch(error => {
+          notify(`${newName} could not be added to server`, setNotificationMessage, true, setIsError)
         })
     }
     setNewName('')
@@ -109,7 +121,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notificationMessage}/>
+      <Notification message={notificationMessage} isError={isError}/>
       <h2>Search</h2>
       <div>
           filter shown with: 
@@ -119,7 +131,12 @@ const App = () => {
         setNewName={setNewName} setNewNumber={setNewNumber}
         submitter={addNewPerson}/>
       <h2>Numbers</h2>
-      <People searchPersons={searchResults} persons={persons} setPersons={setPersons} messageModifier={setNotificationMessage}/>
+      <People
+        searchPersons={searchResults}
+        persons={persons}
+        setPersons={setPersons}
+        messageModifier={setNotificationMessage}
+        isErrorModifier={setIsError}/>
     </div>
   )
 }

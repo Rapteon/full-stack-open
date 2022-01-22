@@ -1,3 +1,4 @@
-# Exercise 2.19
+# Exercise 2.20
 
-Updated app to show notifications when updating/deleting/adding contact.
+Error notifications are now shown when trying to modify a non-existent contact  
+with correct CSS styles applied.
