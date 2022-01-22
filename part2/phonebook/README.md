@@ -1,3 +1,3 @@
-# Exercise 2.18
+# Exercise 2.19
 
-Added feature to update number if contact already exists.
+Updated app to show notifications when updating/deleting/adding contact.

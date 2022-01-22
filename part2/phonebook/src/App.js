@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import dbHandler from './services/persons'
+import Notification from './components/Notification'
 
 /**
  * filter = function used to filter items.
@@ -10,6 +11,13 @@ import dbHandler from './services/persons'
   return (
     <input onChange={event => updater(filter(event.target.value, items))}/>
   )
+}
+
+const notify = (message, messageModifier) => {
+  messageModifier(message)
+  setTimeout(() => {
+      messageModifier(null)
+  }, 5000)
 }
 
 const PersonForm = ({newName, setNewName, newNumber, setNewNumber, submitter}) => {
@@ -28,15 +36,19 @@ const PersonForm = ({newName, setNewName, newNumber, setNewNumber, submitter}) =
   )
 }
 
-const People = ({searchPersons, persons, setPersons}) => {
+const People = ({searchPersons, persons, setPersons, messageModifier}) => {
   const deletePerson = (event) => {
     // window.confirm() returns true if OK is selected, else false by default.
-    if (window.confirm(`Delete ${persons.find(person => person.id === parseInt(event.target.value)).name}?`)) {
+    const personToDelete = persons.find(person => person.id === parseInt(event.target.value)).name
+    if (window.confirm(`Delete ${personToDelete}?`)) {
       dbHandler
         .del(parseInt(event.target.value))
         .then(response => {
           // We don't receive a usable response. Got an empty object.
           setPersons(persons.filter(person => person.id !== parseInt(event.target.value)))
+        })
+        .then(() => {
+          notify(`Deleted ${personToDelete}`, messageModifier)
         })
         .catch(error => {
           console.log('Error deleting delete contact.')
@@ -55,6 +67,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchResults, setSearchResults] = useState([])
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   const loadPersons = () => {
     dbHandler
@@ -63,7 +76,7 @@ const App = () => {
   }
 
   useEffect(loadPersons, [])
-
+  
   const addNewPerson = (event) => {
     event.preventDefault()
     if(persons.filter(person => person.name === newName).length !== 0) {
@@ -72,12 +85,18 @@ const App = () => {
         dbHandler
           .update({name: newName, number: newNumber}, persons.find(person => person.name === newName).id)
           .then(response => setPersons(persons.filter(person => person.name !== newName).concat(response)))
+          .then(() => {
+            notify(`Updated ${newName}`, setNotificationMessage)
+          })
       }
     }
     else {
       dbHandler
         .add({name: newName, number: newNumber})
         .then(newPerson => setPersons(persons.concat(newPerson)))
+        .then(() => {
+          notify(`Added ${newName}`, setNotificationMessage)
+        })
     }
     setNewName('')
     setNewNumber('')
@@ -90,6 +109,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage}/>
       <h2>Search</h2>
       <div>
           filter shown with: 
@@ -99,7 +119,7 @@ const App = () => {
         setNewName={setNewName} setNewNumber={setNewNumber}
         submitter={addNewPerson}/>
       <h2>Numbers</h2>
-      <People searchPersons={searchResults} persons={persons} setPersons={setPersons}/>
+      <People searchPersons={searchResults} persons={persons} setPersons={setPersons} messageModifier={setNotificationMessage}/>
     </div>
   )
 }
