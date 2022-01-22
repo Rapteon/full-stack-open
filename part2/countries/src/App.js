@@ -8,8 +8,6 @@ const WeatherHolder = ({city}) => {
 
 	const updateWeather = () => {
 		console.log(city)
-		//key=4df4233d27ffeb5c637617bf30fb0e46
-		//`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=4df4233d27ffeb5c637617bf30fb0e46`
 		//http://localhost:3002/weather
 		console.log('Getting weather...')
 		console.log(`Location ${city}`)
