@@ -1,3 +1,3 @@
-# Exercise 2.17
+# Exercise 2.18
 
-Added delete button beside each contact to allow deletion.
+Added feature to update number if contact already exists.

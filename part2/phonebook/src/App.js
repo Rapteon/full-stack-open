@@ -67,16 +67,21 @@ const App = () => {
   const addNewPerson = (event) => {
     event.preventDefault()
     if(persons.filter(person => person.name === newName).length !== 0) {
-      alert(`${newName} is already added to phonebook`)
+      const confirmMessage = `${newName} is already added to the phonebook. Replace the old number with a new one?`
+      if (window.confirm(confirmMessage)) {
+        dbHandler
+          .update({name: newName, number: newNumber}, persons.find(person => person.name === newName).id)
+          .then(response => setPersons(persons.filter(person => person.name !== newName).concat(response)))
+      }
     }
     else {
       dbHandler
         .add({name: newName, number: newNumber})
         .then(newPerson => setPersons(persons.concat(newPerson)))
-      setNewName('')
-      setNewNumber('')
-      setSearchResults([])
     }
+    setNewName('')
+    setNewNumber('')
+    setSearchResults([])
   }
   const filterPeople = (name, persons) => {
     return persons.filter(person => person.name.match(new RegExp(`${name}`, 'i')))
