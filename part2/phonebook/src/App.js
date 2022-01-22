@@ -28,11 +28,25 @@ const PersonForm = ({newName, setNewName, newNumber, setNewNumber, submitter}) =
   )
 }
 
-const People = ({searchPersons, persons}) => {
+const People = ({searchPersons, persons, setPersons}) => {
+  const deletePerson = (event) => {
+    // window.confirm() returns true if OK is selected, else false by default.
+    if (window.confirm(`Delete ${persons.find(person => person.id === parseInt(event.target.value)).name}?`)) {
+      dbHandler
+        .del(parseInt(event.target.value))
+        .then(response => {
+          // We don't receive a usable response. Got an empty object.
+          setPersons(persons.filter(person => person.id !== parseInt(event.target.value)))
+        })
+        .catch(error => {
+          console.log('Error deleting delete contact.')
+        })
+    }
+  }
   return (
     searchPersons.length === 0
-      ? persons.map(person => <p key={person.name}>{person.name} {person.number}</p>)
-      : searchPersons.map(person => <p key={person.name}>{person.name} {person.number}</p>)
+      ? persons.map(person => <p key={person.name}>{person.name} {person.number}<button value={person.id} onClick={deletePerson}>delete</button></p>)
+      : searchPersons.map(person => <p key={person.name}>{person.name} {person.number}<button>delete</button></p>)
   )
 }
 
@@ -80,7 +94,7 @@ const App = () => {
         setNewName={setNewName} setNewNumber={setNewNumber}
         submitter={addNewPerson}/>
       <h2>Numbers</h2>
-      <People searchPersons={searchResults} persons={persons}/>
+      <People searchPersons={searchResults} persons={persons} setPersons={setPersons}/>
     </div>
   )
 }

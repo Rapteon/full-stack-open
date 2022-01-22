@@ -1,3 +1,3 @@
-# Exercise 2.16
+# Exercise 2.17
 
-Refactored code by moving contact modification code to separate module.
+Added delete button beside each contact to allow deletion.
