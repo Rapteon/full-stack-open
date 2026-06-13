@@ -2,10 +2,11 @@ import { useState } from "react";
 
 const App = (props) => {
   const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-1234567" },
+    { name: "Arto Hellas", number: "040-1234567", id: 1 },
   ]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+  const [filterKey, setFilterKey] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -15,13 +16,28 @@ const App = (props) => {
     if (hasName(persons, newName)) {
       alert(`${newName} is already added to the phonebook`);
     } else {
-      setPersons(persons.concat({ name: newName, number: newNumber }));
+      setPersons(
+        persons.concat({
+          name: newName,
+          number: newNumber,
+          id: persons.length + 1,
+        }),
+      );
     }
   };
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <div>
+        filter shown with
+        <input
+          type="text"
+          value={filterKey}
+          onChange={(e) => setFilterKey(e.target.value)}
+        />
+      </div>
+      <h2>add a new</h2>
       <form onSubmit={handleSubmit}>
         <div>
           name:
@@ -40,11 +56,17 @@ const App = (props) => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map((person) => (
-        <p key={person.name}>
-          {person.name} {person.number}
-        </p>
-      ))}
+      {persons
+        .filter((person) =>
+          person.name
+            .toLocaleLowerCase()
+            .includes(filterKey.toLocaleLowerCase()),
+        )
+        .map((person) => (
+          <p key={person.id}>
+            {person.name} {person.number}
+          </p>
+        ))}
     </div>
   );
 };
