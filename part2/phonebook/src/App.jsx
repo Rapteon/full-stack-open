@@ -6,7 +6,14 @@ const App = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setPersons(persons.concat({ name: newName }));
+    const hasName = (persons, name) =>
+      persons.map((person) => person.name).includes(name);
+
+    if (hasName(persons, newName)) {
+      alert(`${newName} is already added to the phonebook`);
+    } else {
+      setPersons(persons.concat({ name: newName }));
+    }
   };
 
   return (
