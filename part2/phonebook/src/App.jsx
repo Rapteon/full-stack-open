@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
-import axios from "axios";
+import NoteService from "./services/note";
 
 const App = (props) => {
   const [persons, setPersons] = useState([]);
@@ -22,12 +24,9 @@ const App = (props) => {
     if (hasName(persons, person.name)) {
       alert(`${person.name} is already added to the phonebook`);
     } else {
-      setPersons(
-        persons.concat({
-          ...person,
-          id: persons.length + 1,
-        }),
-      );
+      NoteService.addPerson(person).then((newPerson) => {
+        setPersons(persons.concat(person));
+      });
     }
   };
 
