@@ -22,7 +22,22 @@ const App = (props) => {
       persons.map((person) => person.name).includes(name);
 
     if (hasName(persons, person.name)) {
-      alert(`${person.name} is already added to the phonebook`);
+      const hasConfirmed = window.confirm(
+        `${person.name} is already added to the phonebook, replace the old number with a new one?`,
+      );
+      if (hasConfirmed) {
+        let personToUpdate = persons.find((p) => p.name === person.name);
+
+        personToUpdate = { ...personToUpdate, number: person.number };
+
+        PersonService.updatePerson(personToUpdate).then((updatedPerson) => {
+          console.log(updatedPerson);
+
+          setPersons(
+            persons.map((p) => (p.id === updatedPerson.id ? updatedPerson : p)),
+          );
+        });
+      }
     } else {
       PersonService.addPerson(person).then((newPerson) => {
         setPersons(persons.concat(newPerson));
