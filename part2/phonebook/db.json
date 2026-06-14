@@ -19,11 +19,6 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": "4"
-    },
-    {
-      "name": "Suraj N",
-      "number": "345678934567",
-      "id": "jwlsqlLOdgI"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

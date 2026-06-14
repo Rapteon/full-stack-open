@@ -30,13 +30,26 @@ const App = (props) => {
     }
   };
 
+  const handleDeletePerson = (person) => {
+    const hasConfirmed = window.confirm(`Delete ${person.name}?`);
+    if (hasConfirmed) {
+      PersonService.deletePerson(person.id).then(() => {
+        setPersons(persons.filter((p) => p.id !== person.id));
+      });
+    }
+  };
+
   return (
     <div>
       <h1>Phonebook</h1>
       <Filter filterKey={filterKey} setFilterKey={setFilterKey}></Filter>
       <h2>add a new</h2>
       <PersonForm onAddPerson={handleAddPerson}></PersonForm>
-      <Persons persons={persons} filterKey={filterKey}></Persons>
+      <Persons
+        persons={persons}
+        filterKey={filterKey}
+        onDelete={handleDeletePerson}
+      ></Persons>
     </div>
   );
 };

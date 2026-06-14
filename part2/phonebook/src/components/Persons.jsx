@@ -1,6 +1,6 @@
 import Contact from "./Contact";
 
-const Persons = ({ persons, filterKey }) => {
+const Persons = ({ persons, filterKey, onDelete }) => {
   return (
     <>
       <h2>Numbers</h2>
@@ -11,7 +11,11 @@ const Persons = ({ persons, filterKey }) => {
             .includes(filterKey.toLocaleLowerCase()),
         )
         .map((person) => (
-          <Contact key={person.id} person={person}></Contact>
+          <Contact
+            key={person.id}
+            person={person}
+            onDelete={onDelete}
+          ></Contact>
         ))}
     </>
   );
