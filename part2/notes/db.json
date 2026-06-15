@@ -24,11 +24,6 @@
       "content": "Yak shaving is my favourite hobby.",
       "important": true,
       "id": "u3tBO3IgmmE"
-    },
-    {
-      "content": "Newbies often prematurely optimize code.",
-      "important": true,
-      "id": "IdG_TtXMd-k"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
