@@ -5,18 +5,29 @@ import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import PersonService from "./services/person";
+import Notification from "./components/Notification";
 
 const App = (props) => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterKey, setFilterKey] = useState("");
+  const [notification, setNotification] = useState(null);
+
+  const NOTIFICATION_DELAY = 5000;
+
   useEffect(() => {
     PersonService.getPersons().then((persons) => {
       setPersons(persons);
     });
   }, []);
 
+  const displayNotification = (message) => {
+    setNotification(message);
+    setTimeout(() => {
+      setNotification(null);
+    }, NOTIFICATION_DELAY);
+  };
   const handleAddPerson = (person) => {
     const hasName = (persons, name) =>
       persons.map((person) => person.name).includes(name);
@@ -31,8 +42,7 @@ const App = (props) => {
         personToUpdate = { ...personToUpdate, number: person.number };
 
         PersonService.updatePerson(personToUpdate).then((updatedPerson) => {
-          console.log(updatedPerson);
-
+          displayNotification(`Updated ${person.name}`);
           setPersons(
             persons.map((p) => (p.id === updatedPerson.id ? updatedPerson : p)),
           );
@@ -40,6 +50,7 @@ const App = (props) => {
       }
     } else {
       PersonService.addPerson(person).then((newPerson) => {
+        displayNotification(`Added ${person.name}`);
         setPersons(persons.concat(newPerson));
       });
     }
@@ -49,6 +60,7 @@ const App = (props) => {
     const hasConfirmed = window.confirm(`Delete ${person.name}?`);
     if (hasConfirmed) {
       PersonService.deletePerson(person.id).then(() => {
+        displayNotification(`Deleted ${person.name}`);
         setPersons(persons.filter((p) => p.id !== person.id));
       });
     }
@@ -57,6 +69,7 @@ const App = (props) => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={notification} />
       <Filter filterKey={filterKey} setFilterKey={setFilterKey}></Filter>
       <h2>add a new</h2>
       <PersonForm onAddPerson={handleAddPerson}></PersonForm>
